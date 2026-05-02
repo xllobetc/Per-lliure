@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Per Lliure — Bloc de Viatges</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --warm: #C0784A;
+      --warm-dark: #A8633A;
+      --cream: #F5EDE4;
+      --dark: #1C1008;
+      --text: #2A1A0E;
+      --text-muted: #7A6050;
+      --border: rgba(120, 80, 40, 0.15);
+      --bg: #FDFAF7;
+      --bg2: #F3EDE6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253, 250, 247, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+    }
+    .logo em { font-style: italic; color: var(--warm); }
+    .nav-links {
+      display: flex; gap: 28px;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .nav-links a:hover { color: var(--warm); }
+    .nav-cta {
+      background: var(--warm); color: #fff;
+      padding: 8px 20px; border-radius: 2px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--warm-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+      background: #0E1A14;
+    }
+    .hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 10vw 80px;
+      max-width: 860px;
+    }
+    .hero-tag {
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #D4A07A; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-tag::before {
+      content: ''; display: block;
+      width: 32px; height: 0.5px; background: #D4A07A;
+    }
+    .hero-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .hero-h1 em { font-style: italic; color: #E8C090; }
+    .hero-sub {
+      font-size: 16px; font-weight: 300;
+      color: rgba(245, 237, 228, 0.7);
+      max-width: 440px; line-height: 1.75;
+      margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 14px; }
+    .btn-primary {
+      background: var(--warm); color: #fff;
+      padding: 13px 32px; border-radius: 2px;
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--warm-dark); }
+    .btn-outline {
+      border: 0.5px solid rgba(245,237,228,0.4);
+      color: var(--cream);
+      padding: 13px 32px; border-radius: 2px;
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(245,237,228,0.8); }
+    .hero-scroll {
+      position: absolute; bottom: 32px; right: 48px; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,237,228,0.4);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 0.5px; height: 60px;
+      background: linear-gradient(to bottom, rgba(245,237,228,0.4), transparent);
+    }
+
+    /* ── INTRO BAND ── */
+    .intro-band {
+      background: var(--dark);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .intro-stat {
+      text-align: center;
+    }
+    .intro-stat strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; color: var(--cream);
+      display: block;
+    }
+    .intro-stat span {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .intro-divider {
+      width: 0.5px; height: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-wrap { padding: 72px 48px; }
+    .section-header { margin-bottom: 40px; }
+    .section-label {
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--warm); margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; line-height: 1.2;
+    }
+
+    /* ── FEATURED POSTS ── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 24px;
+    }
+    .post-card {
+      border-radius: 6px; overflow: hidden;
+      border: 0.5px solid var(--border);
+      background: #fff;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(100,50,20,0.1);
+    }
+    .post-img {
+      position: relative;
+      padding: 20px 20px 0;
+      display: flex; align-items: flex-end;
+    }
+    .post-img-inner {
+      width: 100%; border-radius: 4px;
+      overflow: hidden; position: relative;
+    }
+    .post-img-swatch {
+      width: 100%;
+      display: flex; align-items: flex-end;
+      padding: 20px;
+    }
+    .post-img-swatch.tall { height: 280px; }
+    .post-img-swatch.short { height: 180px; }
+    .post-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,10,5,0.7) 0%, transparent 55%);
+    }
+    .post-img-label {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      color: #fff; line-height: 1.2;
+    }
+    .post-img-label.lg { font-size: 22px; }
+    .post-img-label.sm { font-size: 16px; }
+    .color-1 { background: linear-gradient(145deg, #7A3D20, #2A160A); }
+    .color-2 { background: linear-gradient(145deg, #1E4035, #0A1E18); }
+    .color-3 { background: linear-gradient(145deg, #2A2A4A, #0E0E28); }
+    .color-4 { background: linear-gradient(145deg, #4A3A1A, #200E00); }
+
+    .post-body { padding: 18px 20px 20px; }
+    .post-meta {
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--warm); margin-bottom: 8px;
+    }
+    .post-excerpt {
+      font-size: 14px; color: var(--text-muted); line-height: 1.65;
+    }
+    .post-read {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px;
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--warm); font-weight: 700;
+    }
+    .post-read::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .post-card:hover .post-read::after { transform: translateX(4px); }
+
+    .side-posts { display: flex; flex-direction: column; gap: 24px; }
+
+    /* ── DESTINATIONS ── */
+    .destinations-wrap {
+      background: var(--bg2);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 72px 48px;
+    }
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .dest-card {
+      border-radius: 6px; overflow: hidden;
+      border: 0.5px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .dest-card:hover { transform: translateY(-3px); }
+    .dest-top {
+      height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px;
+    }
+    .dest-info {
+      padding: 12px 14px 14px;
+      border-top: 0.5px solid var(--border);
+    }
+    .dest-name {
+      font-weight: 700; font-size: 13px; letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+    .dest-count { font-size: 11px; color: var(--text-muted); }
+
+    /* ── LATEST POSTS (list) ── */
+    .latest-wrap { padding: 72px 48px; }
+    .latest-list { display: flex; flex-direction: column; gap: 0; }
+    .latest-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center; gap: 24px;
+      padding: 24px 0;
+      border-bottom: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .latest-item:hover { background: var(--bg2); margin: 0 -16px; padding: 24px 16px; }
+    .latest-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; color: rgba(192,120,74,0.2);
+      font-weight: 400; line-height: 1; text-align: center;
+    }
+    .latest-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; margin-bottom: 4px; line-height: 1.25;
+    }
+    .latest-meta { font-size: 12px; color: var(--text-muted); }
+    .latest-tag {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      padding: 4px 12px; border-radius: 2px;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--warm); white-space: nowrap;
+    }
+
+    /* ── ABOUT ── */
+    .about-wrap {
+      background: var(--dark);
+      padding: 80px 48px;
+      display: flex; align-items: center; gap: 56px;
+    }
+    .about-avatar {
+      width: 140px; height: 140px; flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C0784A, #7A3D20);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 52px; color: var(--cream);
+      border: 2px solid rgba(245,237,228,0.15);
+    }
+    .about-text {}
+    .about-label {
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--warm); margin-bottom: 10px;
+    }
+    .about-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; color: var(--cream); margin-bottom: 16px;
+    }
+    .about-bio {
+      font-size: 15px; font-weight: 300;
+      color: rgba(245,237,228,0.65);
+      max-width: 520px; line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-wrap {
+      padding: 72px 48px;
+      text-align: center;
+      background: var(--bg2);
+      border-top: 0.5px solid var(--border);
+    }
+    .newsletter-wrap .section-label { text-align: center; }
+    .newsletter-wrap .section-title { text-align: center; margin-bottom: 12px; }
+    .newsletter-sub {
+      font-size: 15px; color: var(--text-muted);
+      max-width: 420px; margin: 0 auto 32px;
+    }
+    .nl-form {
+      display: flex; justify-content: center; gap: 0;
+      max-width: 420px; margin: 0 auto;
+    }
+    .nl-input {
+      flex: 1;
+      padding: 13px 18px;
+      border: 0.5px solid var(--border);
+      border-right: none;
+      border-radius: 2px 0 0 2px;
+      background: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+    }
+    .nl-input:focus { border-color: var(--warm); }
+    .nl-btn {
+      background: var(--warm); color: #fff;
+      border: none; cursor: pointer;
+      padding: 13px 24px;
+      border-radius: 0 2px 2px 0;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .nl-btn:hover { background: var(--warm-dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    footer .logo { color: var(--cream); }
+    .footer-links {
+      display: flex; gap: 24px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .footer-links a:hover { color: var(--warm); }
+    .footer-copy {
+      font-size: 11px; color: rgba(255,255,255,0.25);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag  { animation: fadeUp 0.6s ease 0.1s both; }
+    .hero-h1   { animation: fadeUp 0.7s ease 0.25s both; }
+    .hero-sub  { animation: fadeUp 0.7s ease 0.4s both; }
+    .hero-btns { animation: fadeUp 0.7s ease 0.55s both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .section-wrap, .latest-wrap, .newsletter-wrap { padding: 48px 20px; }
+      .destinations-wrap { padding: 48px 20px; }
+      .about-wrap { padding: 48px 20px; flex-direction: column; text-align: center; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: center; }
+      .posts-grid { grid-template-columns: 1fr; }
+      .dest-grid { grid-template-columns: repeat(2, 1fr); }
+      .latest-item { grid-template-columns: 48px 1fr; }
+      .latest-tag { display: none; }
+      .intro-band { padding: 20px; gap: 24px; }
+      .intro-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Per <em>Lliure</em></div>
+    <div class="nav-links">
+      <a href="#destins">Destins</a>
+      <a href="#articles">Articles</a>
+      <a href="#sobre">Sobre mi</a>
+      <a href="#newsletter">Newsletter</a>
+    </div>
+    <a href="#newsletter" class="nav-cta">Subscriu-te</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="hero-canvas" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <!-- sky gradient -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#060E0A"/>
+          <stop offset="50%" stop-color="#1A3020"/>
+          <stop offset="100%" stop-color="#3A200A"/>
+        </linearGradient>
+        <radialGradient id="moon" cx="65%" cy="22%" r="12%">
+          <stop offset="0%" stop-color="#F0D890" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#F0D890" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="900" fill="url(#sky)"/>
+      <!-- moon glow -->
+      <rect width="1440" height="900" fill="url(#moon)"/>
+      <!-- moon -->
+      <circle cx="936" cy="198" r="42" fill="#F0E0A0" opacity="0.18"/>
+      <circle cx="936" cy="198" r="28" fill="#F5ECC0" opacity="0.28"/>
+      <circle cx="936" cy="198" r="16" fill="#FAF0D0" opacity="0.5"/>
+      <!-- stars -->
+      <circle cx="200" cy="80" r="1.5" fill="#fff" opacity="0.6"/>
+      <circle cx="380" cy="50" r="1" fill="#fff" opacity="0.5"/>
+      <circle cx="560" cy="110" r="1.5" fill="#fff" opacity="0.4"/>
+      <circle cx="750" cy="40" r="1" fill="#fff" opacity="0.6"/>
+      <circle cx="1100" cy="70" r="1.5" fill="#fff" opacity="0.5"/>
+      <circle cx="1280" cy="130" r="1" fill="#fff" opacity="0.4"/>
+      <circle cx="1380" cy="55" r="1.5" fill="#fff" opacity="0.55"/>
+      <circle cx="90" cy="150" r="1" fill="#fff" opacity="0.4"/>
+      <circle cx="460" cy="165" r="1" fill="#fff" opacity="0.35"/>
+      <!-- distant mountains -->
+      <path d="M0 600 L180 340 L360 520 L540 300 L720 480 L900 260 L1080 450 L1260 310 L1440 420 L1440 900 L0 900Z" fill="#0E2018" opacity="0.9"/>
+      <!-- mid mountains -->
+      <path d="M0 700 L120 520 L300 640 L500 440 L700 600 L880 420 L1060 560 L1240 460 L1440 550 L1440 900 L0 900Z" fill="#081810" opacity="0.95"/>
+      <!-- foreground hills -->
+      <path d="M0 800 Q200 740 400 770 Q600 800 800 755 Q1000 710 1200 760 Q1350 790 1440 775 L1440 900 L0 900Z" fill="#04100C"/>
+      <!-- warm horizon -->
+      <path d="M0 680 Q360 640 720 660 Q1080 680 1440 650 L1440 680 Q1080 700 720 680 Q360 660 0 700Z" fill="#C08040" opacity="0.08"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-tag">Bloc de Viatges</div>
+      <h1 class="hero-h1">Viatja <em>sense rumb</em><br>fix</h1>
+      <p class="hero-sub">Històries autèntiques, rutes lentes i consells honestos per a qui prefereix descobrir el món al seu propi ritme.</p>
+      <div class="hero-btns">
+        <a href="#articles" class="btn-primary">Llegir el blog</a>
+        <a href="#destins" class="btn-outline">Explorar destins</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Desplaça
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <div class="intro-band">
+    <div class="intro-stat">
+      <strong>85</strong>
+      <span>Destins visitats</span>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-stat">
+      <strong>4</strong>
+      <span>Continents</span>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-stat">
+      <strong>120+</strong>
+      <span>Articles publicats</span>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-stat">
+      <strong>7</strong>
+      <span>Anys viatjant</span>
+    </div>
+  </div>
+
+  <!-- FEATURED POSTS -->
+  <section class="section-wrap" id="articles">
+    <div class="section-header">
+      <div class="section-label">Destacats</div>
+      <div class="section-title">Últimes aventures</div>
+    </div>
+    <div class="posts-grid">
+      <div class="post-card">
+        <div class="post-img">
+          <div class="post-img-inner">
+            <div class="post-img-swatch tall color-1">
+              <div class="post-overlay"></div>
+              <div class="post-img-label lg">Vint dies al<br>sud del Marroc</div>
+            </div>
+          </div>
+        </div>
+        <div class="post-body">
+          <div class="post-meta">Àfrica · Marroc · 12 min lectura</div>
+          <p class="post-excerpt">De Marràqueix als volcans de l'Anti-Atles: una ruta lenta per oasis ocults, kasbahs de terra vermella i cels plens d'estrelles al desert.</p>
+          <div class="post-read">Llegir l'article</div>
+        </div>
+      </div>
+      <div class="side-posts">
+        <div class="post-card">
+          <div class="post-img">
+            <div class="post-img-inner">
+              <div class="post-img-swatch short color-2">
+                <div class="post-overlay"></div>
+                <div class="post-img-label sm">Illes Fèroe en solitari</div>
+              </div>
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">Europa · 8 min lectura</div>
+            <p class="post-excerpt">Cascades, ovelles i silenci absolut al nord de l'Atlàntic.</p>
+            <div class="post-read">Llegir</div>
+          </div>
+        </div>
+        <div class="post-card">
+          <div class="post-img">
+            <div class="post-img-inner">
+              <div class="post-img-swatch short color-3">
+                <div class="post-overlay"></div>
+                <div class="post-img-label sm">Kyoto fora de temporada</div>
+              </div>
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">Àsia · Japó · 6 min lectura</div>
+            <p class="post-excerpt">Com gaudir dels temples i jardins sense masses ni pressa.</p>
+            <div class="post-read">Llegir</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations-wrap" id="destins">
+    <div class="section-header">
+      <div class="section-label">Explora</div>
+      <div class="section-title">Per destí</div>
+    </div>
+    <div class="dest-grid">
+      <div class="dest-card">
+        <div class="dest-top" style="background:#F2E8DF;">🌍</div>
+        <div class="dest-info">
+          <div class="dest-name">Àfrica</div>
+          <div class="dest-count">14 articles</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-top" style="background:#DFF2EC;">🌿</div>
+        <div class="dest-info">
+          <div class="dest-name">Àsia</div>
+          <div class="dest-count">22 articles</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-top" style="background:#DFE8F2;">🏔️</div>
+        <div class="dest-info">
+          <div class="dest-name">Europa</div>
+          <div class="dest-count">31 articles</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <div class="dest-top" style="background:#F2ECDF;">🌊</div>
+        <div class="dest-info">
+          <div class="dest-name">Amèrica</div>
+          <div class="dest-count">18 articles</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST ARTICLES (list) -->
+  <section class="latest-wrap">
+    <div class="section-header">
+      <div class="section-label">Recents</div>
+      <div class="section-title">Tots els articles</div>
+    </div>
+    <div class="latest-list">
+      <div class="latest-item">
+        <div class="latest-num">01</div>
+        <div>
+          <div class="latest-title">El tren transiberià: set dies entre Moscou i Vladivostok</div>
+          <div class="latest-meta">Àsia · Rússia · Març 2026</div>
+        </div>
+        <span class="latest-tag">Aventura</span>
+      </div>
+      <div class="latest-item">
+        <div class="latest-num">02</div>
+        <div>
+          <div class="latest-title">Lisboa sense mapa: perdre's per l'Alfama</div>
+          <div class="latest-meta">Europa · Portugal · Febrer 2026</div>
+        </div>
+        <span class="latest-tag">Ciutat</span>
+      </div>
+      <div class="latest-item">
+        <div class="latest-num">03</div>
+        <div>
+          <div class="latest-title">Viatjar sol per primera vegada: guia pràctica</div>
+          <div class="latest-meta">Consells · Gener 2026</div>
+        </div>
+        <span class="latest-tag">Guia</span>
+      </div>
+      <div class="latest-item">
+        <div class="latest-num">04</div>
+        <div>
+          <div class="latest-title">La Patagònia a peu: Torres del Paine en 9 dies</div>
+          <div class="latest-meta">Amèrica · Xile · Novembre 2025</div>
+        </div>
+        <span class="latest-tag">Senderisme</span>
+      </div>
+      <div class="latest-item">
+        <div class="latest-num">05</div>
+        <div>
+          <div class="latest-title">Menjar al carrer a Bangkok: els millors racons</div>
+          <div class="latest-meta">Àsia · Tailàndia · Octubre 2025</div>
+        </div>
+        <span class="latest-tag">Gastronomia</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-wrap" id="sobre">
+    <div class="about-avatar">A</div>
+    <div class="about-text">
+      <div class="about-label">Sobre mi</div>
+      <div class="about-name">Hola, soc l'autora<br><em style="font-style:italic; color:#E8C090;">de Per Lliure</em></div>
+      <p class="about-bio">Viatjo amb motxilla, agenda oberta i molta curiositat. Des de fa set anys recorro el món buscant experiències reals, no les de les guies turístiques. Aquí comparteixo tot el que aprenc — dels llocs amagats als errors que no repetiria.</p>
+      <a href="#newsletter" class="btn-primary" style="display:inline-block;">Segueix el bloc</a>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-wrap" id="newsletter">
+    <div class="section-label">Newsletter</div>
+    <div class="section-title">Una nova aventura,<br>cada quinzena</div>
+    <p class="newsletter-sub">Rep les últimes rutes, consells i històries directament al teu correu. Sense spam, només viatges.</p>
+    <div class="nl-form">
+      <input type="email" class="nl-input" placeholder="el.teu@correu.com" />
+      <button class="nl-btn">Subscriure'm</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo" style="color:#F5EDE4; font-family:'Playfair Display',serif; font-size:22px;">Per <em style="font-style:italic; color:#C0784A;">Lliure</em></div>
+    <div class="footer-links">
+      <a href="#articles">Articles</a>
+      <a href="#destins">Destins</a>
+      <a href="#sobre">Sobre mi</a>
+      <a href="#newsletter">Newsletter</a>
+    </div>
+    <div class="footer-copy">© 2026 Per Lliure · Fet amb ganes de viatjar</div>
+  </footer>
+
+</body>
+</html>
