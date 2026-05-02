@@ -1,0 +1,62 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "imatges"
+public_folder: "/imatges"
+
+locale: "ca"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    folder: "_articles"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Títol", name: "title", widget: "string" }
+      - { label: "Data de publicació", name: "date", widget: "datetime" }
+      - label: "Destí"
+        name: "categoria"
+        widget: "select"
+        options:
+          - { label: "Àfrica", value: "africa" }
+          - { label: "Àsia", value: "asia" }
+          - { label: "Europa", value: "europa" }
+          - { label: "Amèrica", value: "america" }
+          - { label: "Consells", value: "consells" }
+          - { label: "Guies", value: "guies" }
+      - label: "Etiqueta"
+        name: "etiqueta"
+        widget: "select"
+        options:
+          - { label: "Aventura", value: "aventura" }
+          - { label: "Ciutat", value: "ciutat" }
+          - { label: "Senderisme", value: "senderisme" }
+          - { label: "Gastronomia", value: "gastronomia" }
+          - { label: "Guia", value: "guia" }
+      - { label: "Resum (extracte curt)", name: "excerpt", widget: "text" }
+      - { label: "Imatge destacada", name: "image", widget: "image", required: false }
+      - { label: "Contingut de l'article", name: "body", widget: "markdown" }
+      - { label: "Publicat", name: "draft", widget: "boolean", default: true, hint: "Activa per publicar l'article" }
+
+  - name: "pagines"
+    label: "Pàgines"
+    files:
+      - label: "Sobre mi"
+        name: "sobre"
+        file: "_data/sobre.yml"
+        fields:
+          - { label: "Nom", name: "nom", widget: "string" }
+          - { label: "Bio", name: "bio", widget: "text" }
+          - { label: "Foto de perfil", name: "foto", widget: "image", required: false }
+
+      - label: "Configuració del blog"
+        name: "config"
+        file: "_data/config.yml"
+        fields:
+          - { label: "Nom del blog", name: "nom_blog", widget: "string", default: "Per Lliure" }
+          - { label: "Subtítol", name: "subtitol", widget: "string" }
+          - { label: "Destins visitats", name: "destins", widget: "number" }
+          - { label: "Articles publicats", name: "articles", widget: "number" }
+          - { label: "Anys viatjant", name: "anys", widget: "number" }
